@@ -1,0 +1,122 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 20px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-jag-violet: var(--jag-violet);
+  --color-jag-cyan: var(--jag-cyan);
+  --color-jag-pink: var(--jag-pink);
+  --color-jag-lime: var(--jag-lime);
+  --color-jag-amber: var(--jag-amber);
+  --color-jag-surface: var(--jag-surface);
+  --color-jag-surface-2: var(--jag-surface-2);
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.14 0.03 275);
+  --foreground: oklch(0.98 0.005 260);
+  --card: oklch(0.19 0.035 275 / 0.7);
+  --card-foreground: oklch(0.98 0.005 260);
+  --primary: oklch(0.68 0.22 300);
+  --primary-foreground: oklch(0.14 0.03 275);
+  --secondary: oklch(0.24 0.04 275);
+  --secondary-foreground: oklch(0.98 0.005 260);
+  --muted: oklch(0.24 0.03 275);
+  --muted-foreground: oklch(0.72 0.03 270);
+  --accent: oklch(0.78 0.16 210);
+  --accent-foreground: oklch(0.14 0.03 275);
+  --border: oklch(1 0 0 / 0.08);
+  --ring: oklch(0.68 0.22 300);
+
+  --jag-violet: oklch(0.68 0.24 300);
+  --jag-cyan: oklch(0.82 0.16 210);
+  --jag-pink: oklch(0.75 0.22 350);
+  --jag-lime: oklch(0.86 0.18 130);
+  --jag-amber: oklch(0.82 0.17 70);
+  --jag-surface: oklch(0.19 0.035 275 / 0.6);
+  --jag-surface-2: oklch(0.24 0.04 275 / 0.7);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body, #root {
+    height: 100%;
+    overscroll-behavior: none;
+  }
+  html {
+    touch-action: pan-x pan-y;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(1200px 800px at 10% -10%, oklch(0.68 0.24 300 / 0.28), transparent 60%),
+      radial-gradient(900px 700px at 100% 10%, oklch(0.82 0.16 210 / 0.22), transparent 55%),
+      radial-gradient(700px 600px at 50% 110%, oklch(0.75 0.22 350 / 0.18), transparent 60%);
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+@utility glass {
+  background: color-mix(in oklch, var(--jag-surface) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid oklch(1 0 0 / 0.08);
+}
+
+@utility glass-strong {
+  background: color-mix(in oklch, var(--jag-surface-2) 92%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid oklch(1 0 0 / 0.1);
+}
+
+@utility text-gradient {
+  background: linear-gradient(135deg, var(--jag-violet), var(--jag-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes jag-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes jag-pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
