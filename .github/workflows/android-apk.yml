@@ -1,3 +1,4 @@
+cat > .github/workflows/android-apk.yml << 'EOF'
 name: Build Android APK
 
 # Builds JagX OS into an installable Android APK.
@@ -36,8 +37,29 @@ jobs:
       - name: Install web dependencies
         run: bun install
 
-      - name: Build web app (dist/)
+      - name: Build web app
         run: bun run build
+
+      - name: Locate build output and normalize it into ./dist
+        run: |
+          if [ -f dist/index.html ]; then
+            echo "Found dist/index.html — nothing to do."
+            exit 0
+          fi
+          echo "dist/index.html not found at repo root — searching known output locations..."
+          for candidate in dist/client .output/public .vinxi/build/client build out public; do
+            if [ -f "$candidate/index.html" ]; then
+              echo "Found built site at $candidate — copying into ./dist"
+              mkdir -p dist
+              cp -r "$candidate/." dist/
+              exit 0
+            fi
+          done
+          echo "Could not auto-locate the build output. Here's everything named index.html:"
+          find . -maxdepth 4 -iname "index.html" -not -path "./node_modules/*" -not -path "./android/*"
+          echo "And the repo root after build:"
+          ls -la
+          exit 1
 
       - name: Generate Capacitor Android project
         run: |
@@ -67,3 +89,4 @@ jobs:
           name: jagx-os-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+EOF
